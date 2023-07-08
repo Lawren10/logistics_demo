@@ -49,7 +49,7 @@ const ReciverRecord = ({ next, prev }) => {
   };
 
   useEffect(() => {
-    console.log("called useEffect");
+    // console.log("called useEffect");
     setTimeout(() => setDisplay(true), 1000);
   });
 
@@ -60,7 +60,7 @@ const ReciverRecord = ({ next, prev }) => {
   return (
     <>
       {/* {setDisplay(false)} */}
-      {console.log("recivers detail :", reciversDetails)}
+      {/* {console.log("recivers detail :", reciversDetails)} */}
       <div class="border-b border-slate-200 p-4 dark:border-navy-500 sm:px-5">
         <h4 class="text-lg font-medium text-slate-700 dark:text-navy-100">
           Recivers Details

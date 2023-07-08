@@ -1,17 +1,19 @@
 import React from "react";
 import ShippingItem from "./ShippingItem";
+import { GlobalShipmentContext } from "../context/ShipmentContext";
 
-const ShipingItemList = ({ shipmentList, setShipmentList }) => {
+const ShipingItemList = ({ shipItemError }) => {
+  const { shipmentList } = GlobalShipmentContext();
+
   return (
     <>
-      {console.log("list :", shipmentList)}
+      {/* {console.log("list :", shipmentList)} */}
       {shipmentList.map((item) => {
         return (
           <ShippingItem
             key={item}
             itemNumber={item}
-            shipmentList={shipmentList}
-            setShipmentList={setShipmentList}
+            shipItemError={shipItemError}
           />
         );
       })}

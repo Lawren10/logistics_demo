@@ -1,15 +1,26 @@
 import React from "react";
 import { GlobalShipmentContext } from "../context/ShipmentContext";
 
-const ShippingItem = ({ itemNumber, shipmentList, setShipmentList }) => {
-  const { shipmentItems, setShipmentItems } = GlobalShipmentContext();
+const ShippingItem = ({ itemNumber, shipItemError }) => {
+  const { shipmentItems, setShipmentItems, shipmentList, setShipmentList } =
+    GlobalShipmentContext();
   let itemName = `item${itemNumber}`;
+  let errorState = false;
+
+  if (shipItemError[itemName] !== undefined) {
+    errorState = true;
+  }
 
   const removeShipmentItem = () => {
     let newList = [...shipmentList];
     let itemIndex = newList.indexOf(itemNumber);
     newList.splice(itemIndex, 1);
+    let reducedShipmentList = { ...shipmentItems };
+    delete reducedShipmentList[itemName];
+
     setShipmentList(newList);
+
+    setShipmentItems(reducedShipmentList);
   };
 
   const updateShipmentItems = (e) => {
@@ -18,14 +29,14 @@ const ShippingItem = ({ itemNumber, shipmentList, setShipmentList }) => {
     setShipmentItems((prevState) => {
       return {
         ...prevState,
-        [itemName]: { ...prevState.itemName, [name]: e.target.value },
+        [itemName]: { ...prevState[itemName], [name]: e.target.value },
       };
     });
   };
 
   return (
     <>
-      {console.log("item details :", shipmentItems)}
+      {/* {console.log("item details :", shipmentItems)} */}
       <div
         class="rounded-lg border border-slate-300 px-3 py-4"
         style={{ position: "relative" }}
@@ -34,16 +45,20 @@ const ShippingItem = ({ itemNumber, shipmentList, setShipmentList }) => {
           <span>Item name</span>
           <span class="relative mt-1.5 flex">
             <input
-              class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+              className={`form-input peer w-full rounded-lg border ${
+                !errorState
+                  ? "border-slate-300"
+                  : shipItemError.empty === "true"
+                  ? "border-slate-300"
+                  : shipItemError[itemName]["name"] === "true"
+                  ? "border-error"
+                  : "border-slate-300"
+              } bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary `}
               placeholder="Item name"
               type="text"
               onChange={updateShipmentItems}
               name="name"
-              value={
-                shipmentItems.itemName["name"]
-                  ? shipmentItems.itemName["name"]
-                  : ""
-              }
+              value={shipmentItems[itemName]["name"]}
             />
             <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
               <i class="far fa-user text-base"></i>
@@ -56,24 +71,40 @@ const ShippingItem = ({ itemNumber, shipmentList, setShipmentList }) => {
             <label class="block">
               <span>Width</span>
               <input
-                class="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+                className={`form-input mt-1.5 w-full rounded-lg border ${
+                  !errorState
+                    ? "border-slate-300"
+                    : shipItemError.empty === "true"
+                    ? "border-slate-300"
+                    : shipItemError[itemName]["width"] === "true"
+                    ? "border-error"
+                    : "border-slate-300"
+                }  bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary `}
                 placeholder="Width"
                 type="text"
                 onChange={updateShipmentItems}
                 name="width"
-                value={shipmentItems.itemName.width}
+                value={shipmentItems[itemName]["width"]}
               />
             </label>
 
             <label class="block">
               <span>Height</span>
               <input
-                class="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+                className={`form-input mt-1.5 w-full rounded-lg border ${
+                  !errorState
+                    ? "border-slate-300"
+                    : shipItemError.empty === "true"
+                    ? "border-slate-300"
+                    : shipItemError[itemName]["height"] === "true"
+                    ? "border-error"
+                    : "border-slate-300"
+                }  bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary `}
                 placeholder="Height"
                 type="text"
                 onChange={updateShipmentItems}
                 name="height"
-                value={shipmentItems.itemName.height}
+                value={shipmentItems[itemName]["height"]}
               />
             </label>
           </div>
@@ -82,24 +113,40 @@ const ShippingItem = ({ itemNumber, shipmentList, setShipmentList }) => {
             <label class="block">
               <span>Lenght</span>
               <input
-                class="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+                className={`form-input mt-1.5 w-full rounded-lg border ${
+                  !errorState
+                    ? "border-slate-300"
+                    : shipItemError.empty === "true"
+                    ? "border-slate-300"
+                    : shipItemError[itemName]["lenght"] === "true"
+                    ? "border-error"
+                    : "border-slate-300"
+                }  bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary `}
                 placeholder="Lenght"
                 type="text"
                 onChange={updateShipmentItems}
                 name="lenght"
-                value={shipmentItems.itemName.lenght}
+                value={shipmentItems[itemName]["lenght"]}
               />
             </label>
 
             <label class="block">
               <span>Weight</span>
               <input
-                class="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+                className={`form-input mt-1.5 w-full rounded-lg border ${
+                  !errorState
+                    ? "border-slate-300"
+                    : shipItemError.empty === "true"
+                    ? "border-slate-300"
+                    : shipItemError[itemName]["weight"] === "true"
+                    ? "border-error"
+                    : "border-slate-300"
+                }  bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary `}
                 placeholder="Weigh"
                 type="text"
                 onChange={updateShipmentItems}
                 name="weight"
-                value={shipmentItems.itemName.weight}
+                value={shipmentItems[itemName]["weight"]}
               />
             </label>
           </div>

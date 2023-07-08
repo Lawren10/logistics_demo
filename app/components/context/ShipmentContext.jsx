@@ -14,6 +14,7 @@ const ShipmentContext = ({ children }) => {
   let [reciversDetails, setReciversDetaills] = useState(reciversDetail);
   let [shipmentDetails, setShipmentDetails] = useState(shipmentDetail);
   let [shipmentItems, setShipmentItems] = useState(shipmentItem);
+  let [shipmentList, setShipmentList] = useState([]);
 
   return (
     <>
@@ -27,6 +28,8 @@ const ShipmentContext = ({ children }) => {
           setShipmentDetails,
           shipmentItems,
           setShipmentItems,
+          shipmentList,
+          setShipmentList,
         }}
       >
         {children}

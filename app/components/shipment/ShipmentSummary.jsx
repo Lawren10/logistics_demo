@@ -1,11 +1,86 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../Loader";
+import { GlobalShipmentContext } from "../context/ShipmentContext";
 
-const ShipmentSummary = ({ next, prev }) => {
+const ShipmentSummary = ({ prev }) => {
+  const {
+    customersDetails,
+    reciversDetails,
+    shipmentDetails,
+    setShipmentDetails,
+    shipmentItems,
+  } = GlobalShipmentContext();
   let [display, setDisplay] = useState(false);
 
+  const getItemsName = () => {
+    let itemNames = [];
+    for (let item in shipmentItems) {
+      itemNames.push(<p key={item}>{shipmentItems[item]["name"]} </p>);
+    }
+
+    return itemNames;
+  };
+
+  const getTotalLenght = () => {
+    let total = 0;
+    for (let item in shipmentItems) {
+      let num = parseInt(shipmentItems[item]["lenght"]);
+
+      total += num;
+    }
+
+    return total;
+  };
+
+  const getTotalWidth = () => {
+    let total = 0;
+    for (let item in shipmentItems) {
+      let num = parseInt(shipmentItems[item]["width"]);
+
+      total += num;
+    }
+
+    return total;
+  };
+
+  const getTotalHeight = () => {
+    let total = 0;
+    for (let item in shipmentItems) {
+      let num = parseInt(shipmentItems[item]["height"]);
+
+      total += num;
+    }
+
+    return total;
+  };
+
+  const getTotalWeight = () => {
+    let total = 0;
+    for (let item in shipmentItems) {
+      let num = parseInt(shipmentItems[item]["weight"]);
+
+      total += num;
+    }
+
+    return total;
+  };
+
+  const updateDeliveryDate = (e) => {
+    let name = e.target.name;
+    setShipmentDetails((prev) => {
+      return { ...prev, [name]: e.target.value };
+    });
+  };
+
+  const validate = () => {
+    if (!shipmentDetails.deliveryDate) {
+      return;
+    } else {
+      console.log("all done");
+    }
+  };
+
   useEffect(() => {
-    console.log("called useEffect");
     setTimeout(() => setDisplay(true), 1000);
   });
 
@@ -26,16 +101,26 @@ const ShipmentSummary = ({ next, prev }) => {
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">
             Customer Detail
           </h6>
-          <p>Name: John Doe</p>
-          <p>Address: </p>
+          <p>
+            Name: {`${customersDetails.firstName} ${customersDetails.lastName}`}
+          </p>
+          <p>
+            Address:{" "}
+            {`${customersDetails.Address.aptNo}, ${customersDetails.Address.street}, ${customersDetails.Address.city}, ${customersDetails.Address.state}`}
+          </p>
         </div>
 
         <div class="rounded-lg bg-slate-50 px-4 py-2.5">
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">
             Recivers Detail
           </h6>
-          <p>Name: Jane Doe</p>
-          <p>Address: </p>
+          <p>
+            Name: {`${reciversDetails.firstName} ${reciversDetails.lastName}`}
+          </p>
+          <p>
+            Address:{" "}
+            {`${reciversDetails.Address.aptNo}, ${reciversDetails.Address.street}, ${reciversDetails.Address.city}, ${reciversDetails.Address.state}`}
+          </p>
         </div>
 
         <div class="rounded-lg bg-slate-50 px-4 py-2.5">
@@ -47,9 +132,7 @@ const ShipmentSummary = ({ next, prev }) => {
               Items
             </h6>
             <div className="rounded-lg border border-slate-300 px-4 py-3">
-              <p>item1 </p>
-              <p>item1 </p>
-              <p>item1 </p>
+              {getItemsName()}
             </div>
           </div>
 
@@ -58,10 +141,10 @@ const ShipmentSummary = ({ next, prev }) => {
               Items Total Dimensions
             </h6>
             <div className="rounded-lg border border-slate-300 px-4 py-3">
-              <p>Total Lenght: </p>
-              <p>Total Width: </p>
-              <p>Total Height: </p>
-              <p>Total Weight: </p>
+              <p>Total Lenght: {getTotalLenght()}</p>
+              <p>Total Width: {getTotalWidth()}</p>
+              <p>Total Height: {getTotalHeight()}</p>
+              <p>Total Weight: {getTotalWeight()}</p>
             </div>
           </div>
         </div>
@@ -70,14 +153,14 @@ const ShipmentSummary = ({ next, prev }) => {
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">
             Delivery Mode
           </h6>
-          <p>Home Delivery</p>
+          <p>{shipmentDetails.deliveryMode}</p>
         </div>
 
         <div class="rounded-lg bg-slate-50 px-4 py-2.5">
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">
             Shipment & Delivery Date
           </h6>
-          <p className="mt-3">Shiping date: mm/dd/yy</p>
+          <p className="mt-3">Shiping date: {shipmentDetails.shippingDate}</p>
 
           <label class="block mt-3">
             <span>Estimated delivery date</span>
@@ -86,8 +169,18 @@ const ShipmentSummary = ({ next, prev }) => {
                 class="form-input peer w-3\/12 rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
                 placeholder="delivery date"
                 type="date"
+                name="deliveryDate"
+                onChange={updateDeliveryDate}
+                value={shipmentDetails.deliveryDate}
               />
             </span>
+            {shipmentDetails.deliveryDate ? (
+              ""
+            ) : (
+              <span class="text-tiny+ text-error">
+                Kindly provide an estimated delivery date.
+              </span>
+            )}
           </label>
         </div>
 
@@ -111,7 +204,7 @@ const ShipmentSummary = ({ next, prev }) => {
             <span>Prev</span>
           </button>
           <button
-            onClick={next}
+            onClick={validate}
             class="btn space-x-2 bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90"
           >
             <span>Next</span>

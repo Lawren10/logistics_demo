@@ -6,7 +6,9 @@ const TopNav = () => {
       <nav class="header">
         <div class="flex w-full items-center justify-between">
           <div class="h-7 w-7">
-            <button class="menu-toggle ml-0.5 flex h-7 w-7 flex-col justify-center space-y-1.5 text-primary outline-none focus:outline-none dark:text-accent-light/80"></button>
+            <button class="menu-toggle ml-0.5 flex h-7 w-7 flex-col justify-center space-y-1.5 text-primary outline-none ">
+              LOGO
+            </button>
           </div>
 
           <div class="-mr-1.5 flex items-center space-x-2">

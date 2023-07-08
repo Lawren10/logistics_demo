@@ -631,6 +631,7 @@ body.is-monochrome:before {
 nav.header {
   padding: 0rem 2rem;
   width: 100vw;
+  background-color: hsla(0, 0%, 100%, 0.8);
   border-bottom-width: 1px;
   border-color: #e9eef5;
   display: flex;
@@ -642,10 +643,11 @@ nav.header {
   transition-duration: 0.25s;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
   z-index: 500;
 }
 
-nav.header {
+/* nav.header {
   width: 100vw;
   border-bottom-width: 1px;
   border-color: #e9eef5;
@@ -659,7 +661,7 @@ nav.header {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 20;
-}
+} */
 
 :is(.dark nav.header) {
   border-color: #26334d;

@@ -5,9 +5,17 @@ import { uuid } from "uuidv4";
 import { GlobalShipmentContext } from "../context/ShipmentContext";
 
 const ShipmentDetail = ({ next, prev }) => {
-  const { shipmentDetails, setShipmentDetails } = GlobalShipmentContext();
-  let [shipmentList, setShipmentList] = useState([]);
+  const {
+    shipmentDetails,
+    setShipmentDetails,
+    setShipmentItems,
+    shipmentItems,
+    shipmentList,
+    setShipmentList,
+  } = GlobalShipmentContext();
+
   let [err, setErr] = useState({});
+  let [shipItemErr, setShipItemErr] = useState({});
   let [display, setDisplay] = useState(false);
 
   const updateShipmentDetails = (e) => {
@@ -19,6 +27,9 @@ const ShipmentDetail = ({ next, prev }) => {
 
   const ValidateInputs = () => {
     let errorstate = {};
+    let shipItemError = {};
+    let isShipItemError = false;
+    let isShipmentItemEmpty = false;
 
     for (let item in shipmentDetails) {
       if (shipmentDetails[item] === "") {
@@ -28,17 +39,42 @@ const ShipmentDetail = ({ next, prev }) => {
       }
     }
 
-    if (Object.keys(errorstate).length > 0) {
+    if (Object.keys(shipmentItems).length > 0) {
+      for (let key in shipmentItems) {
+        shipItemError[key] = {};
+        for (let item in shipmentItems[key]) {
+          if (shipmentItems[key][item] === "") {
+            isShipItemError !== true ? (isShipItemError = true) : "";
+            shipItemError[key][item] = "true";
+          } else {
+            shipItemError[key][item] = "false";
+          }
+        }
+      }
+      shipItemError["empty"] = "false";
+    } else {
+      isShipmentItemEmpty = true;
+      shipItemError["empty"] = "true";
+    }
+
+    if (
+      Object.keys(errorstate).length > 0 ||
+      isShipItemError ||
+      isShipmentItemEmpty
+    ) {
       setErr(errorstate);
+      setShipItemErr(shipItemError);
       return;
     } else {
       setErr({});
+      setShipItemErr({});
       next();
     }
   };
 
   const addShipmentItem = () => {
     let num = shipmentList.length;
+    num = num + 1;
     let itemslist = {
       name: "",
       width: "",
@@ -46,13 +82,21 @@ const ShipmentDetail = ({ next, prev }) => {
       lenght: "",
       weight: "",
     };
+    let itemSet = `item${num}`;
 
     setShipmentList((prev) => {
-      return [...prev, num + 1];
+      return [...prev, num];
+    });
+
+    setShipmentItems((prevState) => {
+      return {
+        ...prevState,
+        [itemSet]: itemslist,
+      };
     });
   };
 
-  const generateBatchNum = (e) => {
+  const generateBatchNum = () => {
     let id = uuid();
     setShipmentDetails((prevState) => {
       return { ...prevState, batchNumber: id };
@@ -69,11 +113,23 @@ const ShipmentDetail = ({ next, prev }) => {
 
   return (
     <>
-      {console.log("shipmentDetails", shipmentDetails)}
+      {/* {console.log("error state", err)} */}
+      {/* {console.log("ship error", shipItemErr)} */}
       <div class="border-b border-slate-200 p-4 dark:border-navy-500 sm:px-5">
         <h4 class="text-lg font-medium text-slate-700 dark:text-navy-100">
           Shipment Details
         </h4>
+        {Object.keys(err).length > 0 || shipItemErr.empty === "false" ? (
+          <span class="text-tiny+ text-error">
+            Kindly fill all empty fields
+          </span>
+        ) : shipItemErr.empty === "true" ? (
+          <span class="text-tiny+ text-error">
+            please Kindly add items for shipping
+          </span>
+        ) : (
+          ""
+        )}
       </div>
 
       <div class="space-y-4 p-4 sm:p-5">
@@ -103,10 +159,7 @@ const ShipmentDetail = ({ next, prev }) => {
           Shipping item/s
         </p>
 
-        <ShipingItemList
-          shipmentList={shipmentList}
-          setShipmentList={setShipmentList}
-        />
+        <ShipingItemList shipItemError={shipItemErr} />
 
         <button
           className="btn h-6 rounded bg-primary px-3 text-xs font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 "
