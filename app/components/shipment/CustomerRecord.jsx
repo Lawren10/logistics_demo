@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { GlobalShipmentContext } from "../context/ShipmentContext";
+import axios from "axios";
 import Loader from "../Loader";
 
 const CustomerRecord = ({ next, prev }) => {
   let { customersDetails, setCustomersDetails } = GlobalShipmentContext();
   let [err, setErr] = useState({});
   let [display, setDisplay] = useState(false);
+  let [serverError, setServerError] = useState(false);
 
   const updateCustomersDetails = (e, address) => {
     let name = e.target.name;
@@ -20,7 +22,7 @@ const CustomerRecord = ({ next, prev }) => {
     });
   };
 
-  const ValidateInputs = () => {
+  const ValidateInputs = async () => {
     let errorstate = {};
 
     for (let item in customersDetails) {
@@ -43,8 +45,16 @@ const CustomerRecord = ({ next, prev }) => {
       setErr(errorstate);
       return;
     } else {
-      setErr({});
-      next();
+      try {
+        let response = await axios.post("/api/addCustomer", customersDetails);
+        if (response.status === 200) {
+          setErr({});
+          next();
+          return;
+        }
+      } catch (error) {
+        setServerError(true);
+      }
     }
   };
 
@@ -59,7 +69,7 @@ const CustomerRecord = ({ next, prev }) => {
 
   return (
     <>
-      {/* {setDisplay(false)} */}
+      {console.log(serverError)}
       {/* {console.log("customer detail error:", err)} */}
       <div class="border-b border-slate-200 p-4 dark:border-navy-500 sm:px-5">
         <h4 class="text-lg font-medium text-slate-700 dark:text-navy-100">
@@ -68,6 +78,11 @@ const CustomerRecord = ({ next, prev }) => {
         {Object.keys(err).length > 0 ? (
           <span class="text-tiny+ text-error">
             Kindly fill all empty fields
+          </span>
+        ) : serverError ? (
+          <span class="text-tiny+ text-error">
+            Error conecting to server please kindly check your network and try
+            again
           </span>
         ) : (
           ""

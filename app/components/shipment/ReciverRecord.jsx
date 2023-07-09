@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { GlobalShipmentContext } from "../context/ShipmentContext";
 import Loader from "../Loader";
+import axios from "axios";
 
 const ReciverRecord = ({ next, prev }) => {
   let { reciversDetails, setReciversDetaills } = GlobalShipmentContext();
   let [err, setErr] = useState({});
   let [display, setDisplay] = useState(false);
+  let [serverError, setServerError] = useState(false);
 
   const updateReciversDetails = (e, address) => {
     let name = e.target.name;
@@ -20,7 +22,7 @@ const ReciverRecord = ({ next, prev }) => {
     });
   };
 
-  const ValidateInputs = () => {
+  const ValidateInputs = async () => {
     let errorstate = {};
 
     for (let item in reciversDetails) {
@@ -43,8 +45,16 @@ const ReciverRecord = ({ next, prev }) => {
       setErr(errorstate);
       return;
     } else {
-      setErr({});
-      next();
+      try {
+        let response = await axios.post("/api/addReciver", reciversDetails);
+        if (response.status === 200) {
+          setErr({});
+          next();
+          return;
+        }
+      } catch (error) {
+        setServerError(true);
+      }
     }
   };
 
@@ -68,6 +78,11 @@ const ReciverRecord = ({ next, prev }) => {
         {Object.keys(err).length > 0 ? (
           <span class="text-tiny+ text-error">
             Kindly fill all empty fields
+          </span>
+        ) : serverError ? (
+          <span class="text-tiny+ text-error">
+            Error conecting to server please kindly check your network and try
+            again
           </span>
         ) : (
           ""

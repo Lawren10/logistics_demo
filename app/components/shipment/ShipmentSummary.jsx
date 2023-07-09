@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../Loader";
 import { GlobalShipmentContext } from "../context/ShipmentContext";
+import ThankYou from "./ThankYou";
 
 const ShipmentSummary = ({ prev }) => {
   const {
@@ -11,6 +12,7 @@ const ShipmentSummary = ({ prev }) => {
     shipmentItems,
   } = GlobalShipmentContext();
   let [display, setDisplay] = useState(false);
+  let [thankYou, setThankYou] = useState(false);
 
   const getItemsName = () => {
     let itemNames = [];
@@ -76,7 +78,8 @@ const ShipmentSummary = ({ prev }) => {
     if (!shipmentDetails.deliveryDate) {
       return;
     } else {
-      console.log("all done");
+      setDisplay(false);
+      setThankYou(true);
     }
   };
 
@@ -86,6 +89,10 @@ const ShipmentSummary = ({ prev }) => {
 
   if (!display) {
     return <Loader />;
+  }
+
+  if (thankYou) {
+    return <ThankYou />;
   }
 
   return (
