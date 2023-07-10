@@ -30,6 +30,10 @@ const Main = () => {
   return (
     <>
       {/* {console.log(progressPoint)} */}
+      <h1 className="text-3xl font-semibold mt-4 text-info">
+        {" "}
+        Place Shipment Order
+      </h1>
       <div
         class="grid grid-cols-12 gap-4 sm:gap-5 lg:gap-6 pt-12 pb-4"
         // style={{ border: "1px solid red" }}

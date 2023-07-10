@@ -1,0 +1,30 @@
+import ShipmentContext from "./components/context/ShipmentContext";
+import Sidebar from "./components/navigation/Sidebar";
+import TopNav from "./components/navigation/TopNav";
+import "./globals.css";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata = {
+  title: "Logistics_Demo",
+  description: "",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body className={`is-header-blur ${inter.className}`}>
+        <ShipmentContext>
+          <div className="min-h-100vh flex grow bg-slate-50 dark:bg-navy-900">
+            <Sidebar />
+            <TopNav />
+            <main className="main-content w-full px-[var(--margin-x)] pb-8">
+              {children}
+            </main>
+          </div>
+        </ShipmentContext>
+      </body>
+    </html>
+  );
+}
