@@ -8,7 +8,7 @@ export async function POST(request) {
   let { firstName, lastName, email, phone, Address } = body;
   let addressString = `${Address.aptNo},${Address.street},${Address.city},${Address.state}`;
 
-  let dataResponse = await prisma.customer.create({
+  let dataResponse = await prisma.Customers.create({
     data: {
       firstName: firstName,
       lastName: lastName,

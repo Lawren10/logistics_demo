@@ -1,6 +1,7 @@
-import ShipmentContext from "./components/context/ShipmentContext";
-import Sidebar from "./components/navigation/Sidebar";
-import TopNav from "./components/navigation/TopNav";
+import ShipmentContext from "../components/context/ShipmentContext";
+import StoreProvider from "@/reduxStore/StoreProvider";
+import Sidebar from "../components/navigation/Sidebar";
+import TopNav from "../components/navigation/TopNav";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -15,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`is-header-blur ${inter.className}`}>
-        <ShipmentContext>
+        <StoreProvider>
           <div className="min-h-100vh flex grow bg-slate-50 dark:bg-navy-900">
             <Sidebar />
             <TopNav />
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
               {children}
             </main>
           </div>
-        </ShipmentContext>
+        </StoreProvider>
       </body>
     </html>
   );

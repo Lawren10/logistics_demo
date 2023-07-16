@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Main from "../components/shipment/Main";
+import Main from "../../components/shipment/Main";
 
 const PlaceShipmentOrder = () => {
   return (

@@ -123,6 +123,18 @@ button {
   background-image: none;
 }
 
+.settings-sidebar-off {
+  display: none;
+}
+
+.settings-sidebar-on {
+  display: block;
+}
+
+/* .activate-sidebar:active .settings-sidebar {
+  display: block;
+} */
+
 :-moz-focusring {
   outline: auto;
 }
@@ -6487,6 +6499,13 @@ span.flatpickr-weekday {
   display: flex;
 }
 
+.steps-tiny {
+  --size: .75rem !important;
+  --line: 1px !important;
+  align-items: baseline;
+  display: flex;
+}
+
 .steps.line-space {
   --space: 0.5rem;
 }
@@ -6513,6 +6532,17 @@ span.flatpickr-weekday {
   margin: auto auto 0.5rem;
   position: relative;
   width: var(--size);
+}
+
+.steps .step .step-header-small {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 1rem;
+  justify-content: center;
+  margin: auto auto 0.5rem;
+  position: relative;
+  width: 1rem;
 }
 
 .steps .step:not(:last-child):before {

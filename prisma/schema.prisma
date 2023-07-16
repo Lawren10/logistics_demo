@@ -11,14 +11,48 @@ datasource db {
 }
 
 
-
-model customer {
-  id   String                   @id @default(uuid())
+//customers Table Model
+model Customers {
+  id   String @id @default(uuid())
   firstName String
   lastName String
   email String @unique
   phone String @unique
   address String
+  shipments Shipment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+}
+
+//ShipmentBatch/shipmentItems Table Model
+model ShipmentBatch{
+  id String @id @default(uuid())
+  items Json
+  shipmentId Shipment?
+  createdAt DateTime @default(now())
+  
+}
+
+//Shipment Table Model
+model Shipment{
+  id String @id @default(uuid())
+  customerId String
+  customer Customers @relation(fields: [customerId],references: [id])
+  items ShipmentBatch @relation(fields: [itemsId],references: [id])
+  itemsId String @unique
+  trackingNumberId ShipmentTracking? @relation(fields: [trackingNumber],references: [id])
+  trackingNumber String? @unique
+  createdAt DateTime @default(now())
+}
+
+//Shipment Tracking Table Model
+model ShipmentTracking{
+  id String @id @default(uuid())
+  shipmentId Shipment?
+  processing DateTime?
+  shipped DateTime?
+  arrived DateTime?
+  delivered DateTime?
+  shipingProcess Int @default(1)
 }

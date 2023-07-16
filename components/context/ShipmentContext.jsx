@@ -10,7 +10,7 @@ import {
   shipmentItem,
 } from "./contextData";
 
-const ShipmentContext = ({ children }) => {
+export const ShipmentContext = ({ children }) => {
   let [customersDetails, setCustomersDetails] = useState(customerDetail);
   let [reciversDetails, setReciversDetaills] = useState(reciversDetail);
   let [shipmentDetails, setShipmentDetails] = useState(shipmentDetail);
@@ -42,5 +42,3 @@ const ShipmentContext = ({ children }) => {
 export const GlobalShipmentContext = () => {
   return useContext(AllShipmentContext);
 };
-
-export default ShipmentContext;

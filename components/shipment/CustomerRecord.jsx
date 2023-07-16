@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { GlobalShipmentContext } from "../context/ShipmentContext";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCustomersDetails } from "@/reduxStore/storeSliceies/customer";
 import axios from "axios";
 import Loader from "../Loader";
 
 const CustomerRecord = ({ next, prev }) => {
   let { customersDetails, setCustomersDetails } = GlobalShipmentContext();
+  const customerRecord = useSelector((state) => state.customerRecord);
+  const dispatch = useDispatch();
   let [err, setErr] = useState({});
   let [display, setDisplay] = useState(false);
   let [serverError, setServerError] = useState(false);
 
-  const updateCustomersDetails = (e, address) => {
-    let name = e.target.name;
-    setCustomersDetails((prevState) => {
-      if (address === "true") {
-        return {
-          ...prevState,
-          Address: { ...prevState.Address, [name]: e.target.value },
-        };
-      }
-      return { ...prevState, [name]: e.target.value };
-    });
+  const updateCustomer = (name, status) => {
+    dispatch(
+      updateCustomersDetails({
+        name: name,
+        Address: status,
+      })
+    );
   };
 
   const ValidateInputs = async () => {
@@ -69,8 +69,8 @@ const CustomerRecord = ({ next, prev }) => {
 
   return (
     <>
-      {console.log(serverError)}
-      {/* {console.log("customer detail error:", err)} */}
+      {/* {console.log(serverError)} */}
+      {console.log("customer record:", customerRecord)}
       <div class="border-b border-slate-200 p-4 dark:border-navy-500 sm:px-5">
         <h4 class="text-lg font-medium text-slate-700 dark:text-navy-100">
           Customer Details
@@ -101,8 +101,8 @@ const CustomerRecord = ({ next, prev }) => {
                 placeholder="first name"
                 type="text"
                 name="firstName"
-                onChange={(e) => updateCustomersDetails(e, "false")}
-                value={customersDetails.firstName}
+                onChange={(e) => updateCustomer(e.target.name, false)}
+                // value={customersDetails.firstName}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="far fa-user text-base"></i>
@@ -120,8 +120,8 @@ const CustomerRecord = ({ next, prev }) => {
                 placeholder="last name"
                 type="text"
                 name="lastName"
-                onChange={(e) => updateCustomersDetails(e, "false")}
-                value={customersDetails.lastName}
+                onChange={(e) => updateCustomer(e.target.name, false)}
+                // value={customersDetails.lastName}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="far fa-user text-base"></i>
@@ -140,8 +140,8 @@ const CustomerRecord = ({ next, prev }) => {
                 placeholder="Email address"
                 type="text"
                 name="email"
-                onChange={(e) => updateCustomersDetails(e, "false")}
-                value={customersDetails.email}
+                onChange={(e) => updateCustomer(e.target.name, false)}
+                // value={customersDetails.email}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="fa-regular fa-envelope text-base"></i>
@@ -158,8 +158,8 @@ const CustomerRecord = ({ next, prev }) => {
                 placeholder="(999) 999 999"
                 type="text"
                 name="phone"
-                onChange={(e) => updateCustomersDetails(e, "false")}
-                value={customersDetails.phone}
+                onChange={(e) => updateCustomer(e.target.name, false)}
+                // value={customersDetails.phone}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="fa-solid fa-map-pin text-base"></i>
@@ -184,8 +184,8 @@ const CustomerRecord = ({ next, prev }) => {
                   placeholder=" Apt Number"
                   type="text"
                   name="aptNo"
-                  onChange={(e) => updateCustomersDetails(e, "true")}
-                  value={customersDetails.Address.aptNo}
+                  onChange={(e) => updateCustomer(e.target.name, true)}
+                  // value={customersDetails.Address.aptNo}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-solid fa-map-pin text-base"></i>
@@ -203,8 +203,8 @@ const CustomerRecord = ({ next, prev }) => {
                   placeholder="Street"
                   type="text"
                   name="street"
-                  onChange={(e) => updateCustomersDetails(e, "true")}
-                  value={customersDetails.Address.street}
+                  onChange={(e) => updateCustomer(e.target.name, true)}
+                  // value={customersDetails.Address.street}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-regular fa-envelope text-base"></i>
@@ -224,8 +224,8 @@ const CustomerRecord = ({ next, prev }) => {
                   placeholder="Your City/Town"
                   type="text"
                   name="city"
-                  onChange={(e) => updateCustomersDetails(e, "true")}
-                  value={customersDetails.Address.city}
+                  onChange={(e) => updateCustomer(e.target.name, true)}
+                  // value={customersDetails.Address.city}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-solid fa-city text-base"></i>
@@ -243,8 +243,8 @@ const CustomerRecord = ({ next, prev }) => {
                   placeholder="Your State"
                   type="text"
                   name="state"
-                  onChange={(e) => updateCustomersDetails(e, "true")}
-                  value={customersDetails.Address.state}
+                  onChange={(e) => updateCustomer(e.target.name, true)}
+                  // value={customersDetails.Address.state}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-solid fa-flag"></i>
