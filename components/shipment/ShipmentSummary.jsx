@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../Loader";
-import { GlobalShipmentContext } from "../context/ShipmentContext";
+import { useDispatch, useSelector } from "react-redux";
+import { updateShipment } from "@/reduxStore/storeSliceies/shipment";
+import axios from "axios";
 import ThankYou from "./ThankYou";
 
 const ShipmentSummary = ({ prev }) => {
-  const {
-    customersDetails,
-    reciversDetails,
-    shipmentDetails,
-    setShipmentDetails,
-    shipmentItems,
-  } = GlobalShipmentContext();
+  const customerRecord = useSelector((state) => state.customerRecord);
+  const receiverRecord = useSelector((state) => state.receiverRecord);
+  const shipmentRecord = useSelector((state) => state.shipmentRecord);
+  const { shipmentItem } = shipmentRecord;
+  const dispatch = useDispatch();
   let [display, setDisplay] = useState(false);
   let [thankYou, setThankYou] = useState(false);
 
   const getItemsName = () => {
     let itemNames = [];
-    for (let item in shipmentItems) {
-      itemNames.push(<p key={item}>{shipmentItems[item]["name"]} </p>);
+    for (let item in shipmentItem) {
+      itemNames.push(<p key={item}>{shipmentItem[item]["name"]} </p>);
     }
 
     return itemNames;
@@ -25,8 +25,8 @@ const ShipmentSummary = ({ prev }) => {
 
   const getTotalLenght = () => {
     let total = 0;
-    for (let item in shipmentItems) {
-      let num = parseInt(shipmentItems[item]["lenght"]);
+    for (let item in shipmentItem) {
+      let num = parseInt(shipmentItem[item]["lenght"]);
 
       total += num;
     }
@@ -36,8 +36,8 @@ const ShipmentSummary = ({ prev }) => {
 
   const getTotalWidth = () => {
     let total = 0;
-    for (let item in shipmentItems) {
-      let num = parseInt(shipmentItems[item]["width"]);
+    for (let item in shipmentItem) {
+      let num = parseInt(shipmentItem[item]["width"]);
 
       total += num;
     }
@@ -47,8 +47,8 @@ const ShipmentSummary = ({ prev }) => {
 
   const getTotalHeight = () => {
     let total = 0;
-    for (let item in shipmentItems) {
-      let num = parseInt(shipmentItems[item]["height"]);
+    for (let item in shipmentItem) {
+      let num = parseInt(shipmentItem[item]["height"]);
 
       total += num;
     }
@@ -58,8 +58,8 @@ const ShipmentSummary = ({ prev }) => {
 
   const getTotalWeight = () => {
     let total = 0;
-    for (let item in shipmentItems) {
-      let num = parseInt(shipmentItems[item]["weight"]);
+    for (let item in shipmentItem) {
+      let num = parseInt(shipmentItem[item]["weight"]);
 
       total += num;
     }
@@ -69,17 +69,44 @@ const ShipmentSummary = ({ prev }) => {
 
   const updateDeliveryDate = (e) => {
     let name = e.target.name;
-    setShipmentDetails((prev) => {
-      return { ...prev, [name]: e.target.value };
-    });
+    let value = e.target.value;
+    dispatch(updateShipment({ name, value }));
   };
 
-  const validate = () => {
-    if (!shipmentDetails.deliveryDate) {
+  const validate = async () => {
+    if (!shipmentRecord.deliveryDate) {
       return;
     } else {
-      setDisplay(false);
-      setThankYou(true);
+      // setDisplay(false);
+      // let customersRes = await axios.post(
+      //   "/api/customerRecord/addCustomer",
+      //   customerRecord
+      // );
+
+      let shipmentData = {
+        customerId: "CUS-6477er-ku4572ui",
+        itemsId: shipmentRecord.batchNumber,
+        deliveryMode: shipmentRecord.deliveryMode,
+        deliveryDate: shipmentRecord.deliveryDate,
+        shippingDate: shipmentRecord.shippingDate,
+        receiverDetail: {
+          name: `${customerRecord.firstName} ${customerRecord.lastName}`,
+          phone: customerRecord.phone,
+          address: `${customerRecord.Address.aptNo}, ${customerRecord.Address.street}, ${customerRecord.Address.city}, ${customerRecord.Address.state}`,
+        },
+      };
+
+      let shipmentRes = await axios.post(
+        "/api/shipmentRecord/addShipment",
+        shipmentData
+      );
+
+      console.log(shipmentRes);
+
+      // setThankYou(true);
+      // console.log("customerRecord", customerRecord);
+      // console.log("receiverRecord", receiverRecord);
+      // console.log("shipmentRecord", shipmentRecord);
     }
   };
 
@@ -109,11 +136,11 @@ const ShipmentSummary = ({ prev }) => {
             Customer Detail
           </h6>
           <p>
-            Name: {`${customersDetails.firstName} ${customersDetails.lastName}`}
+            Name: {`${customerRecord.firstName} ${customerRecord.lastName}`}
           </p>
           <p>
             Address:{" "}
-            {`${customersDetails.Address.aptNo}, ${customersDetails.Address.street}, ${customersDetails.Address.city}, ${customersDetails.Address.state}`}
+            {`${customerRecord.Address.aptNo}, ${customerRecord.Address.street}, ${customerRecord.Address.city}, ${customerRecord.Address.state}`}
           </p>
         </div>
 
@@ -122,11 +149,11 @@ const ShipmentSummary = ({ prev }) => {
             Recivers Detail
           </h6>
           <p>
-            Name: {`${reciversDetails.firstName} ${reciversDetails.lastName}`}
+            Name: {`${receiverRecord.firstName} ${receiverRecord.lastName}`}
           </p>
           <p>
             Address:{" "}
-            {`${reciversDetails.Address.aptNo}, ${reciversDetails.Address.street}, ${reciversDetails.Address.city}, ${reciversDetails.Address.state}`}
+            {`${receiverRecord.Address.aptNo}, ${receiverRecord.Address.street}, ${receiverRecord.Address.city}, ${receiverRecord.Address.state}`}
           </p>
         </div>
 
@@ -160,14 +187,14 @@ const ShipmentSummary = ({ prev }) => {
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">
             Delivery Mode
           </h6>
-          <p>{shipmentDetails.deliveryMode}</p>
+          <p>{shipmentRecord.deliveryMode}</p>
         </div>
 
         <div class="rounded-lg bg-slate-50 px-4 py-2.5">
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">
             Shipment & Delivery Date
           </h6>
-          <p className="mt-3">Shiping date: {shipmentDetails.shippingDate}</p>
+          <p className="mt-3">Shiping date: {shipmentRecord.shippingDate}</p>
 
           <label class="block mt-3">
             <span>Estimated delivery date</span>
@@ -178,10 +205,10 @@ const ShipmentSummary = ({ prev }) => {
                 type="date"
                 name="deliveryDate"
                 onChange={updateDeliveryDate}
-                value={shipmentDetails.deliveryDate}
+                value={shipmentRecord.deliveryDate}
               />
             </span>
-            {shipmentDetails.deliveryDate ? (
+            {shipmentRecord.deliveryDate ? (
               ""
             ) : (
               <span class="text-tiny+ text-error">

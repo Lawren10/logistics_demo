@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { GlobalShipmentContext } from "../context/ShipmentContext";
+import { useDispatch, useSelector } from "react-redux";
+import { updateReceiverDetails } from "@/reduxStore/storeSliceies/receiver";
 import Loader from "../Loader";
-import axios from "axios";
 
 const ReciverRecord = ({ next, prev }) => {
-  let { reciversDetails, setReciversDetaills } = GlobalShipmentContext();
+  const receiverRecord = useSelector((state) => state.receiverRecord);
+  const dispatch = useDispatch();
   let [err, setErr] = useState({});
   let [display, setDisplay] = useState(false);
-  let [serverError, setServerError] = useState(false);
 
-  const updateReciversDetails = (e, address) => {
-    let name = e.target.name;
-    setReciversDetaills((prevState) => {
-      if (address === "true") {
-        return {
-          ...prevState,
-          Address: { ...prevState.Address, [name]: e.target.value },
-        };
-      }
-      return { ...prevState, [name]: e.target.value };
-    });
+  const updateReciver = (e, status) => {
+    dispatch(
+      updateReceiverDetails({
+        name: e.target.name,
+        Address: status,
+        value: e.target.value,
+      })
+    );
   };
 
-  const ValidateInputs = async () => {
+  const ValidateInputs = () => {
     let errorstate = {};
 
-    for (let item in reciversDetails) {
+    for (let item in receiverRecord) {
       if (item === "Address") {
-        for (let item in reciversDetails.Address) {
-          if (reciversDetails.Address[item] === "") {
+        for (let item in receiverRecord.Address) {
+          if (receiverRecord.Address[item] === "") {
             errorstate[item] = "true";
           } else {
             delete errorstate[item];
           }
         }
-      } else if (reciversDetails[item] === "") {
+      } else if (receiverRecord[item] === "") {
         errorstate[item] = "true";
       } else {
         delete errorstate[item];
@@ -45,21 +42,12 @@ const ReciverRecord = ({ next, prev }) => {
       setErr(errorstate);
       return;
     } else {
-      try {
-        let response = await axios.post("/api/addReciver", reciversDetails);
-        if (response.status === 200) {
-          setErr({});
-          next();
-          return;
-        }
-      } catch (error) {
-        setServerError(true);
-      }
+      setErr({});
+      next();
     }
   };
 
   useEffect(() => {
-    // console.log("called useEffect");
     setTimeout(() => setDisplay(true), 1000);
   });
 
@@ -79,11 +67,6 @@ const ReciverRecord = ({ next, prev }) => {
           <span class="text-tiny+ text-error">
             Kindly fill all empty fields
           </span>
-        ) : serverError ? (
-          <span class="text-tiny+ text-error">
-            Error conecting to server please kindly check your network and try
-            again
-          </span>
         ) : (
           ""
         )}
@@ -101,8 +84,8 @@ const ReciverRecord = ({ next, prev }) => {
                 placeholder="first name"
                 type="text"
                 name="firstName"
-                onChange={(e) => updateReciversDetails(e, "false")}
-                value={reciversDetails.firstName}
+                onChange={(e) => updateReciver(e, false)}
+                value={receiverRecord.firstName}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="far fa-user text-base"></i>
@@ -120,8 +103,8 @@ const ReciverRecord = ({ next, prev }) => {
                 placeholder="last name"
                 type="text"
                 name="lastName"
-                onChange={(e) => updateReciversDetails(e, "false")}
-                value={reciversDetails.lastName}
+                onChange={(e) => updateReciver(e, false)}
+                value={receiverRecord.lastName}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="far fa-user text-base"></i>
@@ -140,8 +123,8 @@ const ReciverRecord = ({ next, prev }) => {
                 placeholder="Email address"
                 type="text"
                 name="email"
-                onChange={(e) => updateReciversDetails(e, "false")}
-                value={reciversDetails.email}
+                onChange={(e) => updateReciver(e, false)}
+                value={receiverRecord.email}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="fa-regular fa-envelope text-base"></i>
@@ -158,8 +141,8 @@ const ReciverRecord = ({ next, prev }) => {
                 placeholder="(999) 999 999"
                 type="text"
                 name="phone"
-                onChange={(e) => updateReciversDetails(e, "false")}
-                value={reciversDetails.phone}
+                onChange={(e) => updateReciver(e, false)}
+                value={receiverRecord.phone}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="fa-solid fa-map-pin text-base"></i>
@@ -184,8 +167,8 @@ const ReciverRecord = ({ next, prev }) => {
                   placeholder=" Apt Number"
                   type="text"
                   name="aptNo"
-                  onChange={(e) => updateReciversDetails(e, "true")}
-                  value={reciversDetails.Address.aptNo}
+                  onChange={(e) => updateReciver(e, true)}
+                  value={receiverRecord.Address.aptNo}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-solid fa-map-pin text-base"></i>
@@ -203,8 +186,8 @@ const ReciverRecord = ({ next, prev }) => {
                   placeholder="Street"
                   type="text"
                   name="street"
-                  onChange={(e) => updateReciversDetails(e, "true")}
-                  value={reciversDetails.Address.street}
+                  onChange={(e) => updateReciver(e, true)}
+                  value={receiverRecord.Address.street}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-regular fa-envelope text-base"></i>
@@ -224,8 +207,8 @@ const ReciverRecord = ({ next, prev }) => {
                   placeholder="Your City/Town"
                   type="text"
                   name="city"
-                  onChange={(e) => updateReciversDetails(e, "true")}
-                  value={reciversDetails.Address.city}
+                  onChange={(e) => updateReciver(e, true)}
+                  value={receiverRecord.Address.city}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-solid fa-city text-base"></i>
@@ -243,8 +226,8 @@ const ReciverRecord = ({ next, prev }) => {
                   placeholder="Your State"
                   type="text"
                   name="state"
-                  onChange={(e) => updateReciversDetails(e, "true")}
-                  value={reciversDetails.Address.state}
+                  onChange={(e) => updateReciver(e, true)}
+                  value={receiverRecord.Address.state}
                 />
                 <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                   <i class="fa-solid fa-flag"></i>

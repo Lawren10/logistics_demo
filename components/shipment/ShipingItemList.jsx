@@ -1,9 +1,11 @@
 import React from "react";
 import ShippingItem from "./ShippingItem";
-import { GlobalShipmentContext } from "../context/ShipmentContext";
+import { useSelector } from "react-redux";
 
 const ShipingItemList = ({ shipItemError }) => {
-  const { shipmentList } = GlobalShipmentContext();
+  const shipmentList = useSelector(
+    (state) => state.shipmentRecord.shipmentList
+  );
 
   return (
     <>

@@ -1,9 +1,15 @@
 import React from "react";
-import { GlobalShipmentContext } from "../context/ShipmentContext";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateShipmentItemRecord,
+  deleteShipmentItem,
+} from "@/reduxStore/storeSliceies/shipment";
 
 const ShippingItem = ({ itemNumber, shipItemError }) => {
-  const { shipmentItems, setShipmentItems, shipmentList, setShipmentList } =
-    GlobalShipmentContext();
+  const shipmentItem = useSelector(
+    (state) => state.shipmentRecord.shipmentItem
+  );
+  const dispatch = useDispatch();
   let itemName = `item${itemNumber}`;
   let errorState = false;
 
@@ -12,26 +18,14 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
   }
 
   const removeShipmentItem = () => {
-    let newList = [...shipmentList];
-    let itemIndex = newList.indexOf(itemNumber);
-    newList.splice(itemIndex, 1);
-    let reducedShipmentList = { ...shipmentItems };
-    delete reducedShipmentList[itemName];
-
-    setShipmentList(newList);
-
-    setShipmentItems(reducedShipmentList);
+    dispatch(deleteShipmentItem({ itemNumber, itemName }));
   };
 
   const updateShipmentItems = (e) => {
     let name = e.target.name;
+    let value = e.target.value;
 
-    setShipmentItems((prevState) => {
-      return {
-        ...prevState,
-        [itemName]: { ...prevState[itemName], [name]: e.target.value },
-      };
-    });
+    dispatch(updateShipmentItemRecord({ name, value, itemName }));
   };
 
   return (
@@ -58,7 +52,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
               type="text"
               onChange={updateShipmentItems}
               name="name"
-              value={shipmentItems[itemName]["name"]}
+              value={shipmentItem[itemName]["name"]}
             />
             <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
               <i class="far fa-user text-base"></i>
@@ -84,7 +78,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
                 type="text"
                 onChange={updateShipmentItems}
                 name="width"
-                value={shipmentItems[itemName]["width"]}
+                value={shipmentItem[itemName]["width"]}
               />
             </label>
 
@@ -104,7 +98,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
                 type="text"
                 onChange={updateShipmentItems}
                 name="height"
-                value={shipmentItems[itemName]["height"]}
+                value={shipmentItem[itemName]["height"]}
               />
             </label>
           </div>
@@ -126,7 +120,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
                 type="text"
                 onChange={updateShipmentItems}
                 name="lenght"
-                value={shipmentItems[itemName]["lenght"]}
+                value={shipmentItem[itemName]["lenght"]}
               />
             </label>
 
@@ -146,7 +140,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
                 type="text"
                 onChange={updateShipmentItems}
                 name="weight"
-                value={shipmentItems[itemName]["weight"]}
+                value={shipmentItem[itemName]["weight"]}
               />
             </label>
           </div>

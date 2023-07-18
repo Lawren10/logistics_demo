@@ -13,12 +13,11 @@ let initialState = {
   },
 };
 
-const customerSlice = createSlice({
-  name: "customerRecord",
+const receiverSlice = createSlice({
+  name: "receiverRecord",
   initialState,
   reducers: {
-    updateCustomersDetails: (state, action) => {
-      // console.log(state)
+    updateReceiverDetails: (state, action) => {
       let { name, Address, value } = action.payload;
       if (Address === true) {
         state.Address[name] = value;
@@ -29,7 +28,7 @@ const customerSlice = createSlice({
   },
 });
 
-const { actions, reducer } = customerSlice;
-export const { updateCustomersDetails } = actions;
+const { actions, reducer } = receiverSlice;
+export const { updateReceiverDetails } = actions;
 
 export default reducer;

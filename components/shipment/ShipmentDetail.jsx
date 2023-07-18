@@ -2,27 +2,26 @@ import React, { useState, useEffect } from "react";
 import ShipingItemList from "./ShipingItemList";
 import Loader from "../Loader";
 import { uuid } from "uuidv4";
-import { GlobalShipmentContext } from "../context/ShipmentContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateShipment,
+  updateShipmentItem,
+  updateBatchNum,
+} from "@/reduxStore/storeSliceies/shipment";
 
 const ShipmentDetail = ({ next, prev }) => {
-  const {
-    shipmentDetails,
-    setShipmentDetails,
-    setShipmentItems,
-    shipmentItems,
-    shipmentList,
-    setShipmentList,
-  } = GlobalShipmentContext();
+  const shipmentRecord = useSelector((state) => state.shipmentRecord);
+  const dispatch = useDispatch();
+  const { shipmentItem } = shipmentRecord;
 
   let [err, setErr] = useState({});
   let [shipItemErr, setShipItemErr] = useState({});
   let [display, setDisplay] = useState(false);
 
-  const updateShipmentDetails = (e) => {
+  const updateShipmentRecord = (e) => {
     let name = e.target.name;
-    setShipmentDetails((prevState) => {
-      return { ...prevState, [name]: e.target.value };
-    });
+    let value = e.target.value;
+    dispatch(updateShipment({ name, value }));
   };
 
   const ValidateInputs = () => {
@@ -31,19 +30,19 @@ const ShipmentDetail = ({ next, prev }) => {
     let isShipItemError = false;
     let isShipmentItemEmpty = false;
 
-    for (let item in shipmentDetails) {
-      if (shipmentDetails[item] === "") {
+    for (let item in shipmentRecord) {
+      if (shipmentRecord[item] === "") {
         errorstate[item] = "true";
       } else {
         delete errorstate[item];
       }
     }
 
-    if (Object.keys(shipmentItems).length > 0) {
-      for (let key in shipmentItems) {
+    if (Object.keys(shipmentItem).length > 0) {
+      for (let key in shipmentItem) {
         shipItemError[key] = {};
-        for (let item in shipmentItems[key]) {
-          if (shipmentItems[key][item] === "") {
+        for (let item in shipmentItem[key]) {
+          if (shipmentItem[key][item] === "") {
             isShipItemError !== true ? (isShipItemError = true) : "";
             shipItemError[key][item] = "true";
           } else {
@@ -73,34 +72,14 @@ const ShipmentDetail = ({ next, prev }) => {
   };
 
   const addShipmentItem = () => {
-    let num = shipmentList.length;
-    num = num + 1;
-    let itemslist = {
-      name: "",
-      width: "",
-      height: "",
-      lenght: "",
-      weight: "",
-    };
-    let itemSet = `item${num}`;
-
-    setShipmentList((prev) => {
-      return [...prev, num];
-    });
-
-    setShipmentItems((prevState) => {
-      return {
-        ...prevState,
-        [itemSet]: itemslist,
-      };
-    });
+    dispatch(updateShipmentItem());
   };
 
   const generateBatchNum = () => {
     let id = uuid();
-    setShipmentDetails((prevState) => {
-      return { ...prevState, batchNumber: id };
-    });
+    let idArray = id.split("-");
+    let idString = `BAT-${idArray[3]}-${idArray[4]}`;
+    dispatch(updateBatchNum(idString));
   };
 
   useEffect(() => {
@@ -143,7 +122,7 @@ const ShipmentDetail = ({ next, prev }) => {
               placeholder="batch number"
               type="text"
               disabled
-              value={shipmentDetails.batchNumber}
+              value={shipmentRecord.batchNumber}
             />
 
             <button
@@ -180,9 +159,9 @@ const ShipmentDetail = ({ next, prev }) => {
                 } bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:z-10 hover:border-slate-400 focus:z-10 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent`}
                 placeholder="shipping date"
                 type="date"
-                onChange={updateShipmentDetails}
+                onChange={updateShipmentRecord}
                 name="shippingDate"
-                value={shipmentDetails.shippingDate}
+                value={shipmentRecord.shippingDate}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="far fa-user text-base"></i>
@@ -197,10 +176,11 @@ const ShipmentDetail = ({ next, prev }) => {
                   ? "border-error"
                   : "border-slate-300"
               } bg-white px-3 py-2 hover:border-slate-400 focus:border-primary`}
-              onChange={updateShipmentDetails}
+              onChange={updateShipmentRecord}
               name="deliveryMode"
-              value={shipmentDetails.deliveryMode}
+              value={shipmentRecord.deliveryMode}
             >
+              <option>--select one--</option>
               <option>home delivery</option>
               <option>office pickup</option>
             </select>
