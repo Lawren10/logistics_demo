@@ -5,6 +5,7 @@ import receiverReducer from "./storeSliceies/receiver";
 import shipmentReducer from "./storeSliceies/shipment";
 import customerListReducer from "./storeSliceies/customersList";
 import trackingDetailReducer from "./storeSliceies/trackingSlice";
+import authDetailReducer from "./storeSliceies/auth";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     shipmentRecord: shipmentReducer,
     customerList: customerListReducer,
     trackingDetails: trackingDetailReducer,
+    authDetails: authDetailReducer,
   },
 });
 

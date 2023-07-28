@@ -1,6 +1,6 @@
 .loginButton {
   position: absolute;
-  bottom: 8%;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
@@ -31,7 +31,7 @@
 }
 
 .centerBox {
-  top: 0%;
+  top: -2.6rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
