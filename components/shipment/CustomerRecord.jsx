@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCustomersDetails } from "@/reduxStore/storeSliceies/customer";
+import {
+  updateCustomersDetails,
+  persistsCustomer,
+} from "@/reduxStore/storeSliceies/customer";
+import { getSingleCustomer } from "@/reduxStore/storeSliceies/customer";
 import Loader from "../Loader";
+import axios from "axios";
 
 const CustomerRecord = ({ next, prev }) => {
   const customerRecord = useSelector((state) => state.customerRecord);
@@ -19,9 +24,21 @@ const CustomerRecord = ({ next, prev }) => {
     );
   };
 
-  const ValidateInputs = () => {
-    let errorstate = {};
+  const getCustomer = async (e) => {
+    let param = { uniqueParam: e.target.value };
 
+    dispatch(getSingleCustomer(param));
+  };
+
+  const ValidateInputs = async () => {
+    if (customerRecord.exists === true) {
+      console.log("exists");
+      setErr({});
+      next();
+      return;
+    }
+
+    let errorstate = {};
     for (let item in customerRecord) {
       if (item === "Address") {
         for (let item in customerRecord.Address) {
@@ -31,7 +48,10 @@ const CustomerRecord = ({ next, prev }) => {
             delete errorstate[item];
           }
         }
-      } else if (customerRecord[item] === "") {
+      } else if (
+        customerRecord[item] === "" &&
+        (item !== "id") & (item !== "exists")
+      ) {
         errorstate[item] = "true";
       } else {
         delete errorstate[item];
@@ -43,7 +63,16 @@ const CustomerRecord = ({ next, prev }) => {
       return;
     } else {
       setErr({});
-      next();
+      try {
+        let res = await axios.post(
+          "/api/customerRecord/addCustomer",
+          customerRecord
+        );
+        let id = res.data.id;
+        // console.log("added and id = ", id);
+        dispatch(persistsCustomer(id));
+        next();
+      } catch (error) {}
     }
   };
 
@@ -143,6 +172,7 @@ const CustomerRecord = ({ next, prev }) => {
                 name="phone"
                 onChange={(e) => updateCustomer(e, false)}
                 value={customerRecord.phone}
+                onBlur={(e) => getCustomer(e)}
               />
               <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
                 <i class="fa-solid fa-map-pin text-base"></i>

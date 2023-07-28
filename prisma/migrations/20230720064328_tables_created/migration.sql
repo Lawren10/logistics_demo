@@ -9,7 +9,7 @@ CREATE TABLE `Customers` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Customers_email_key`(`email`),
+    UNIQUE INDEX `Customers_id_key`(`id`),
     UNIQUE INDEX `Customers_phone_key`(`phone`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -20,6 +20,7 @@ CREATE TABLE `ShipmentBatch` (
     `items` JSON NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+    UNIQUE INDEX `ShipmentBatch_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -28,9 +29,14 @@ CREATE TABLE `Shipment` (
     `id` VARCHAR(191) NOT NULL,
     `customerId` VARCHAR(191) NOT NULL,
     `itemsId` VARCHAR(191) NOT NULL,
-    `trackingNumber` VARCHAR(191) NULL,
+    `deliveryMode` VARCHAR(191) NOT NULL,
+    `deliveryDate` VARCHAR(191) NOT NULL,
+    `shippingDate` VARCHAR(191) NOT NULL,
+    `receiverDetail` JSON NOT NULL,
+    `trackingNumber` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+    UNIQUE INDEX `Shipment_id_key`(`id`),
     UNIQUE INDEX `Shipment_itemsId_key`(`itemsId`),
     UNIQUE INDEX `Shipment_trackingNumber_key`(`trackingNumber`),
     PRIMARY KEY (`id`)
@@ -45,6 +51,7 @@ CREATE TABLE `ShipmentTracking` (
     `delivered` DATETIME(3) NULL,
     `shipingProcess` INTEGER NOT NULL DEFAULT 1,
 
+    UNIQUE INDEX `ShipmentTracking_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -55,4 +62,4 @@ ALTER TABLE `Shipment` ADD CONSTRAINT `Shipment_customerId_fkey` FOREIGN KEY (`c
 ALTER TABLE `Shipment` ADD CONSTRAINT `Shipment_itemsId_fkey` FOREIGN KEY (`itemsId`) REFERENCES `ShipmentBatch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Shipment` ADD CONSTRAINT `Shipment_trackingNumber_fkey` FOREIGN KEY (`trackingNumber`) REFERENCES `ShipmentTracking`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Shipment` ADD CONSTRAINT `Shipment_trackingNumber_fkey` FOREIGN KEY (`trackingNumber`) REFERENCES `ShipmentTracking`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

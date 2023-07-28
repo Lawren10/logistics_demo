@@ -47,6 +47,15 @@ const shipmentSlice = createSlice({
     updateBatchNum: (state, action) => {
       state.batchNumber = action.payload;
     },
+
+    resetShipmentDetails: (state) => {
+      state.batchNumber = "";
+      state.shippingDate = "";
+      state.deliveryMode = "";
+      state.deliveryDate = "";
+      state.shipmentList = [];
+      state.shipmentItem = {};
+    },
   },
 });
 
@@ -57,6 +66,7 @@ export const {
   updateShipmentItemRecord,
   deleteShipmentItem,
   updateBatchNum,
+  resetShipmentDetails,
 } = actions;
 
 export default reducer;

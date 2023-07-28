@@ -1,0 +1,50 @@
+.loginButton {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  z-index: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.registerButton {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  z-index: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.registerButton:hover {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.centerBox {
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.registerBox {
+  top: -3.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.loginSize {
+  width: 100%;
+  min-height: 80vh;
+}

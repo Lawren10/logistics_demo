@@ -1,24 +1,18 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllCustomer } from "@/reduxStore/storeSliceies/customersList";
 import Loader from "../Loader";
 
 const CustomersList = () => {
-  let [customerList, setCustomerList] = useState([]);
-  const [loading, setLoding] = useState(true);
-
-  const getCustomers = async () => {
-    try {
-      let customers = await axios.get("/api/getCustomers");
-      setLoding(false);
-      setCustomerList(customers.data);
-    } catch (error) {
-      setLoding(false);
-      setCustomerList("server error");
-    }
-  };
+  const allCustomers = useSelector((state) => state.customerList);
+  const { customerList, loading } = allCustomers;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getCustomers();
+    if (customerList.length > 0) {
+      return;
+    }
+    dispatch(getAllCustomer());
   }, []);
 
   if (loading) {
@@ -63,7 +57,6 @@ const CustomersList = () => {
 
   return (
     <>
-      {/* {console.log(customerList)} */}
       <h1 className="text-3xl font-semibold mt-4 text-info">Customers</h1>
 
       <div className="card mt-12">

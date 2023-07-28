@@ -22,6 +22,7 @@ export async function POST(request) {
       address: addressString,
     },
   });
+
   // console.log(dataResponse);
   return NextResponse.json(dataResponse);
 }

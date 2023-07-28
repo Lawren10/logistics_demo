@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import TrackingForm from "./TrackingForm";
 import Loader from "../Loader";
 import TrackingResult from "./trackingResult/TrackingResult";
 
 const TrackShipment = () => {
-  let [showTrackingDetail, setShowTrackingDetail] = useState(false);
-  let [trackingDetail, setTrackingDetail] = useState(false);
-  let [loading, setLoading] = useState(false);
+  const trackingDetails = useSelector((state) => state.trackingDetails);
+  const { loading, showDetails } = trackingDetails;
 
   if (loading) {
     return <Loader />;
@@ -16,13 +16,8 @@ const TrackShipment = () => {
     <>
       <h1 className="text-3xl font-semibold mt-4 text-info">Track Shipment</h1>
 
-      {!showTrackingDetail && (
-        <TrackingForm
-          setLoading={setLoading}
-          setShowTrackingDetail={setShowTrackingDetail}
-        />
-      )}
-      {showTrackingDetail && <TrackingResult />}
+      {!showDetails && <TrackingForm />}
+      {showDetails && <TrackingResult />}
     </>
   );
 };

@@ -25,10 +25,20 @@ const receiverSlice = createSlice({
         state[name] = value;
       }
     },
+    resetReceiversDetails: (state) => {
+      state.firstName = "";
+      state.lastName = "";
+      state.email = "";
+      state.phone = "";
+      state.Address.aptNo = "";
+      state.Address.street = "";
+      state.Address.city = "";
+      state.Address.state = "";
+    },
   },
 });
 
 const { actions, reducer } = receiverSlice;
-export const { updateReceiverDetails } = actions;
+export const { updateReceiverDetails, resetReceiversDetails } = actions;
 
 export default reducer;

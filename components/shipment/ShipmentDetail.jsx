@@ -31,7 +31,7 @@ const ShipmentDetail = ({ next, prev }) => {
     let isShipmentItemEmpty = false;
 
     for (let item in shipmentRecord) {
-      if (shipmentRecord[item] === "") {
+      if (shipmentRecord[item] === "" && item !== "deliveryDate") {
         errorstate[item] = "true";
       } else {
         delete errorstate[item];

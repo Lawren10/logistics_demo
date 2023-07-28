@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getTrackingDetail } from "@/reduxStore/storeSliceies/trackingSlice";
 
-const TrackingForm = ({ setLoading, setShowTrackingDetail }) => {
-  const getTrackingDetail = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setShowTrackingDetail(true);
-    }, 1000);
+const TrackingForm = () => {
+  const [trackingNum, setTrackingNum] = useState("");
+  const dispatch = useDispatch();
+
+  const setNumber = (e) => {
+    setTrackingNum(e.target.value);
+  };
+  const getDetail = () => {
+    dispatch(getTrackingDetail(trackingNum));
+    // console.log(trackingNum);
   };
   return (
     <>
@@ -30,6 +35,8 @@ const TrackingForm = ({ setLoading, setShowTrackingDetail }) => {
               <input
                 className="form-input h-12 mt-1.5 w-full rounded-lg bg-slate-150 px-3 py-2 ring-primary/50 placeholder:text-slate-400 hover:bg-slate-200 focus:ring dark:bg-navy-900/90"
                 type="text"
+                onChange={setNumber}
+                value={trackingNum}
               />
             </label>
           </div>
@@ -37,7 +44,7 @@ const TrackingForm = ({ setLoading, setShowTrackingDetail }) => {
           <div className="flex justify-center space-x-2 pt-4">
             <button
               className="btn h-11 space-x-2 bg-primary font-medium text-white hover:bg-primary-focus hover:shadow-lg hover:shadow-primary/50 focus:bg-primary-focus focus:shadow-lg focus:shadow-primary/50 active:bg-primary-focus/90"
-              onClick={getTrackingDetail}
+              onClick={getDetail}
             >
               <span>Track</span>
               <i class="fa-solid fa-paper-plane"></i>

@@ -1,10 +1,15 @@
+"use client";
 import React from "react";
 
 const TopNav = () => {
   return (
     <>
-      <nav className="header before:bg-white dark:before:bg-navy-750 print:hidden">
-        <div className="header-container relative flex w-full bg-white dark:bg-navy-700 print:hidden">
+      <nav
+        className={`header before:bg-white  dark:before:bg-navy-750 print:hidden `}
+      >
+        <div
+          className={`header-container relative flex w-full bg-white dark:bg-navy-700 print:hidden`}
+        >
           <div className="flex w-full items-center justify-between">
             <div className="h-7 w-7">
               <button class="menu-toggle ml-0.5 flex h-7 w-7 flex-col justify-center space-y-1.5 text-primary outline-none ">

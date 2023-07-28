@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { updateShipment } from "@/reduxStore/storeSliceies/shipment";
+import {
+  updateShipment,
+  resetShipmentDetails,
+} from "@/reduxStore/storeSliceies/shipment";
+import { resetReceiversDetails } from "@/reduxStore/storeSliceies/receiver";
 import axios from "axios";
 import ThankYou from "./ThankYou";
+import ShippingError from "./ShippingError";
 
 const ShipmentSummary = ({ prev }) => {
   const customerRecord = useSelector((state) => state.customerRecord);
@@ -13,6 +18,8 @@ const ShipmentSummary = ({ prev }) => {
   const dispatch = useDispatch();
   let [display, setDisplay] = useState(false);
   let [thankYou, setThankYou] = useState(false);
+  let [err, setErr] = useState(false);
+  let [trackingNumber, setTrackingNumber] = useState("");
 
   const getItemsName = () => {
     let itemNames = [];
@@ -76,19 +83,13 @@ const ShipmentSummary = ({ prev }) => {
   const validate = async () => {
     if (!shipmentRecord.deliveryDate) {
       return;
-    } else {
-      // setDisplay(false);
-      // let customersRes = await axios.post(
-      //   "/api/customerRecord/addCustomer",
-      //   customerRecord
-      // );
+    }
+    setDisplay(false);
 
+    try {
       let shipmentData = {
-        customerId: "CUS-6477er-ku4572ui",
-        itemsId: shipmentRecord.batchNumber,
-        deliveryMode: shipmentRecord.deliveryMode,
-        deliveryDate: shipmentRecord.deliveryDate,
-        shippingDate: shipmentRecord.shippingDate,
+        ...shipmentRecord,
+        customerId: customerRecord.id,
         receiverDetail: {
           name: `${customerRecord.firstName} ${customerRecord.lastName}`,
           phone: customerRecord.phone,
@@ -101,25 +102,35 @@ const ShipmentSummary = ({ prev }) => {
         shipmentData
       );
 
-      console.log(shipmentRes);
+      setDisplay(true);
+      setThankYou(true);
+      setTrackingNumber(shipmentRes.data.trackingNum);
+      dispatch(resetReceiversDetails());
+      dispatch(resetShipmentDetails());
 
-      // setThankYou(true);
-      // console.log("customerRecord", customerRecord);
-      // console.log("receiverRecord", receiverRecord);
-      // console.log("shipmentRecord", shipmentRecord);
+      // console.log(receiverRecord);
+
+      // console.log(shipmentRes.data);
+    } catch (error) {
+      setDisplay(true);
+      setErr(true);
     }
   };
 
   useEffect(() => {
     setTimeout(() => setDisplay(true), 1000);
-  });
+  }, []);
 
   if (!display) {
     return <Loader />;
   }
 
+  if (err) {
+    return <ShippingError prev={prev} />;
+  }
+
   if (thankYou) {
-    return <ThankYou />;
+    return <ThankYou trackingNumber={trackingNumber} />;
   }
 
   return (
@@ -129,7 +140,6 @@ const ShipmentSummary = ({ prev }) => {
           Shipment Sumarry
         </h4>
       </div>
-
       <div class="space-y-4 p-4 sm:p-5">
         <div class="rounded-lg bg-slate-50 px-4 py-2.5">
           <h6 class="text-sm font-medium text-slate-700 dark:text-navy-100">

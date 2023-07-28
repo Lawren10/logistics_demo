@@ -13,7 +13,7 @@ datasource db {
 
 //customers Table Model
 model Customers {
-  id   String @id 
+  id   String @id @unique
   firstName String
   lastName String
   email String 
@@ -27,33 +27,33 @@ model Customers {
 
 //ShipmentBatch/shipmentItems Table Model
 model ShipmentBatch{
-  id String @id 
+  id String @id @unique
   items Json
-  shipmentId Shipment?
+  shipment Shipment ?@relation(fields: [shipmentId],references: [id],onDelete: Cascade,onUpdate:NoAction )
+  shipmentId String ?@unique
   createdAt DateTime @default(now())
   
 }
 
 //Shipment Table Model
 model Shipment{
-  id String @id 
+  id String @id @unique
   customerId String
-  customer Customers @relation(fields: [customerId],references: [id])
-  items ShipmentBatch @relation(fields: [itemsId],references: [id])
-  itemsId String @unique
+  customer Customers @relation(fields: [customerId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  shipmentBatch ShipmentBatch?
   deliveryMode String
   deliveryDate String
   shippingDate String
   receiverDetail Json
-  trackingNumberId ShipmentTracking? @relation(fields: [trackingNumber],references: [id])
-  trackingNumber String? @unique 
+  shipmentTracking ShipmentTracking?
   createdAt DateTime @default(now())
 }
 
 //Shipment Tracking Table Model
 model ShipmentTracking{
-  id String @id 
-  shipmentId Shipment?
+  id String @id @unique
+  shipment Shipment ?@relation(fields: [shipmentId],references: [id],onDelete: Cascade,onUpdate:NoAction )
+  shipmentId String ?@unique
   processing DateTime?
   shipped DateTime?
   arrived DateTime?
