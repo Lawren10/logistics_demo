@@ -32,12 +32,12 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
     <>
       {/* {console.log("item details :", shipmentItems)} */}
       <div
-        class="rounded-lg border border-slate-300 px-3 py-4"
+        className="rounded-lg border border-slate-300 px-3 py-4"
         style={{ position: "relative" }}
       >
-        <label class="block">
+        <label className="block">
           <span>Item name</span>
-          <span class="relative mt-1.5 flex">
+          <span className="relative mt-1.5 flex">
             <input
               className={`form-input peer w-full rounded-lg border ${
                 !errorState
@@ -54,15 +54,15 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
               name="name"
               value={shipmentItem[itemName]["name"]}
             />
-            <span class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
-              <i class="far fa-user text-base"></i>
+            <span className="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
+              <i className="far fa-user text-base"></i>
             </span>
           </span>
         </label>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-2">
-          <div class="grid grid-cols-2 gap-4">
-            <label class="block">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-2">
+          <div className="grid grid-cols-2 gap-4">
+            <label className="block">
               <span>Width</span>
               <input
                 className={`form-input mt-1.5 w-full rounded-lg border ${
@@ -82,7 +82,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
               />
             </label>
 
-            <label class="block">
+            <label className="block">
               <span>Height</span>
               <input
                 className={`form-input mt-1.5 w-full rounded-lg border ${
@@ -103,8 +103,8 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
             </label>
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <label class="block">
+          <div className="grid grid-cols-2 gap-4">
+            <label className="block">
               <span>Lenght</span>
               <input
                 className={`form-input mt-1.5 w-full rounded-lg border ${
@@ -124,7 +124,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
               />
             </label>
 
-            <label class="block">
+            <label className="block">
               <span>Weight</span>
               <input
                 className={`form-input mt-1.5 w-full rounded-lg border ${
@@ -146,7 +146,7 @@ const ShippingItem = ({ itemNumber, shipItemError }) => {
           </div>
         </div>
         <button
-          class="btn h-5 w-5 rounded-full bg-secondary p-0 font-medium text-white hover:bg-secondary-focus focus:bg-secondary-focus active:bg-secondary-focus/90"
+          className="btn h-5 w-5 rounded-full bg-secondary p-0 font-medium text-white hover:bg-secondary-focus focus:bg-secondary-focus active:bg-secondary-focus/90"
           style={{ position: "absolute", top: "-0.5rem", right: "-0.5rem" }}
           onClick={removeShipmentItem}
         >

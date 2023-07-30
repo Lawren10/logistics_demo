@@ -3,12 +3,17 @@ import React, { useState } from "react";
 import "@/css/auth.css";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { updateRegDetails } from "@/reduxStore/storeSliceies/auth";
+import { updateRegDetails, setLoading } from "@/reduxStore/storeSliceies/auth";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const regState = useSelector((state) => state.authDetails.register);
+  const loadingstate = useSelector((state) => state.authDetails.loading);
   const dispatch = useDispatch();
   let [err, setErr] = useState({});
+
+  const router = useRouter();
 
   const updateRecord = (e) => {
     dispatch(
@@ -19,7 +24,10 @@ const Register = () => {
     );
   };
 
-  const validateRegister = () => {
+  const validateRegister = async () => {
+    dispatch(setLoading(true));
+    setErr({});
+
     let errorstate = {};
 
     for (let item in regState) {
@@ -31,23 +39,35 @@ const Register = () => {
     }
 
     if (Object.keys(errorstate).length > 0) {
-      console.log("errorstate", errorstate);
+      // console.log("errorstate", errorstate);
       setErr(errorstate);
+      dispatch(setLoading(false));
       return;
     } else if (regState.password !== regState.confirmPassword) {
       errorstate["passwordError"] = "true";
       errorstate["confirmPassword"] = "true";
-      console.log("errorstate", errorstate);
+      // console.log("errorstate", errorstate);
       setErr(errorstate);
+      dispatch(setLoading(false));
       return;
     } else {
-      setErr({});
-      console.log("allgood:", regState);
+      // setErr({});
+      // console.log("allgood:", regState);
+      try {
+        const res = await axios.post("/api/registerUser", regState);
+        // console.log("from database:", res.data);
+        dispatch(setLoading(false));
+        router.push("/auth/signIn");
+      } catch (error) {
+        setErr({ exists: "true" });
+        dispatch(setLoading(false));
+      }
     }
   };
 
   return (
     <>
+      {/* {console.log("loading state:", loadingstate)} */}
       <div className="grid place-items-center">
         <div className="flex justify-center items-center space-x-4">
           <button className="h-11 w-11  text-primary outline-none ">
@@ -58,13 +78,19 @@ const Register = () => {
                   src="images/app-logo.svg"
                   alt="logo"
                 /> */}
-          <h2 class="text-3xl font-semibold ">Register</h2>
+          <h2 className="text-3xl font-semibold ">Register</h2>
         </div>
       </div>
       <div className="grid place-items-center relative loginSize">
         <div className="card mt-20 w-full max-w-xl p-4 sm:p-5 shadow-xl absolute registerBox ">
-          <div class="grid grid-cols-2 gap-4 my-2">
-            <label class="block">
+          {err.exists === "true" && (
+            <small className="text-error">
+              user already exists or email already registered to a user
+            </small>
+          )}
+
+          <div className="grid grid-cols-2 gap-4 my-2">
+            <label className="block">
               <span>First Name</span>
               <input
                 className={`form-input mt-1.5 w-full h-12 rounded-lg border bg-slate-150 px-3 py-2 ${
@@ -77,7 +103,7 @@ const Register = () => {
                 value={regState.firstName}
               />
             </label>
-            <label class="block">
+            <label className="block">
               <span>Last Name</span>
               <input
                 className={`form-input mt-1.5 w-full h-12 rounded-lg border bg-slate-150 px-3 py-2 ${
@@ -92,8 +118,8 @@ const Register = () => {
             </label>
           </div>
 
-          <div class="space-y-4">
-            <label class="block">
+          <div className="space-y-4">
+            <label className="block">
               <span>Email</span>
               <input
                 className={`form-input mt-1.5 w-full h-12 rounded-lg border bg-slate-150 px-3 py-2 ${
@@ -106,7 +132,7 @@ const Register = () => {
                 value={regState.email}
               />
             </label>
-            <label class="block">
+            <label className="block">
               <span>Password</span>
               <input
                 className={`form-input mt-1.5 w-full h-12 rounded-lg border bg-slate-150 px-3 py-2 ${
@@ -120,7 +146,7 @@ const Register = () => {
               />
             </label>
 
-            <label class="block">
+            <label className="block">
               <span>Confirm Password</span>
               <input
                 className={`form-input mt-1.5 w-full h-12 rounded-lg border bg-slate-150 px-3 py-2 ${
@@ -146,16 +172,20 @@ const Register = () => {
             <p>
               Alreaady have an Account?{" "}
               <span className="text-success">
-                <Link href="/login">Login</Link>
+                <Link href="/auth/signIn">Sign in</Link>
               </span>
             </p>
           </div>
         </div>
         <div
-          class="absolute w-80 h-20 registerButton shadow-xl grid place-items-center text-base font-semibold "
+          className="absolute w-80 h-20 registerButton shadow-xl grid place-items-center text-base font-semibold "
           onClick={validateRegister}
         >
-          Register
+          {loadingstate === false ? (
+            "Register"
+          ) : (
+            <div className="spinner h-7 w-7 animate-spin rounded-full border-[3px] border-success border-r-transparent"></div>
+          )}
         </div>
       </div>
     </>

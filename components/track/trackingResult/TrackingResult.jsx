@@ -132,15 +132,15 @@ const TrackingResult = () => {
           style={{ width: "50%" }}
         >
           <div>
-            <h5 class="text-sm font-semibold">FROM</h5>
-            <h5 class="text-base font-light">
+            <h5 className="text-sm font-semibold">FROM</h5>
+            <h5 className="text-base font-light">
               {getLocation(customer.address)}
             </h5>
           </div>
 
           <div>
-            <h5 class="text-sm font-semibold">TO</h5>
-            <h5 class="text-base font-light">
+            <h5 className="text-sm font-semibold">TO</h5>
+            <h5 className="text-base font-light">
               {getLocation(receiverDetail.address)}
             </h5>
           </div>
@@ -162,14 +162,14 @@ const TrackingResult = () => {
             </h6>
           </div>
           <div style={{ width: "70%" }}>
-            <div class="card rounded-2xl px-4 py-4 sm:px-5">
+            <div className="card rounded-2xl px-4 py-4 sm:px-5">
               <div>
-                <h2 class="text-base font-medium tracking-wide text-slate-600 line-clamp-1 ">
+                <h2 className="text-base font-medium tracking-wide text-slate-600 line-clamp-1 ">
                   Parcel information
                 </h2>
               </div>
 
-              <div class="pt-4">
+              <div className="pt-4">
                 <div className="">
                   <h6 className="text-sm font-small text-slate-700 ">Name</h6>
                   <div className="flex rounded-lg border border-slate-300 px-4 py-3 gap-2">
@@ -183,26 +183,26 @@ const TrackingResult = () => {
                   </h6>
                   <div className="flex rounded-lg border border-slate-300 px-4 py-3 gap-4">
                     <div>
-                      <h6 class="text-sm  font-light">Total Lenght</h6>
-                      <h6 class="text-sm font-semibold text-center">
+                      <h6 className="text-sm  font-light">Total Lenght</h6>
+                      <h6 className="text-sm font-semibold text-center">
                         {getTotalLenght()}
                       </h6>
                     </div>
                     <div>
-                      <h6 class="text-sm  font-light">Total Width</h6>
-                      <h6 class="text-sm font-semibold text-center">
+                      <h6 className="text-sm  font-light">Total Width</h6>
+                      <h6 className="text-sm font-semibold text-center">
                         {getTotalWidth()}
                       </h6>
                     </div>
                     <div>
-                      <h6 class="text-sm  font-light">Total Height</h6>
-                      <h6 class="text-sm font-semibold text-center">
+                      <h6 className="text-sm  font-light">Total Height</h6>
+                      <h6 className="text-sm font-semibold text-center">
                         {getTotalHeight()}
                       </h6>
                     </div>
                     <div>
-                      <h6 class="text-sm  font-light">Total Weight</h6>
-                      <h6 class="text-sm font-semibold text-center">
+                      <h6 className="text-sm  font-light">Total Weight</h6>
+                      <h6 className="text-sm font-semibold text-center">
                         {getTotalWeight()}
                       </h6>
                     </div>

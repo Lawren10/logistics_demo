@@ -11,6 +11,8 @@ datasource db {
 }
 
 
+
+
 //customers Table Model
 model Customers {
   id   String @id @unique
@@ -59,4 +61,13 @@ model ShipmentTracking{
   arrived DateTime?
   delivered DateTime?
   shipingProcess Int @default(1)
+}
+
+//adminUser Table Model
+model AdminUser {
+  id   String @id @unique
+  firstName String
+  lastName String
+  email String @unique
+  hashedPassword String
 }

@@ -9,7 +9,7 @@ export const getAllCustomer = createAsyncThunk(
   "customerList/getAllCutomers",
   async () => {
     let res = await axios.get("/api/customerRecord/getCustomers");
-    console.log("from fetching :", res.data);
+    // console.log("from fetching :", res.data);
     return res.data;
   }
 );

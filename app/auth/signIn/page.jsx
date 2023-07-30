@@ -1,9 +1,7 @@
-"use client";
-
-import React from "react";
 import SignIn from "@/components/signIn/SignIn";
+import React from "react";
 
-const Home = () => {
+const page = () => {
   return (
     <>
       <SignIn />
@@ -11,4 +9,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default page;

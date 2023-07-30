@@ -3,12 +3,19 @@ import React, { useState } from "react";
 import "@/css/auth.css";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { updateLoginDetails } from "@/reduxStore/storeSliceies/auth";
+import {
+  updateLoginDetails,
+  setLoading,
+} from "@/reduxStore/storeSliceies/auth";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const Login = () => {
+const SignIn = () => {
   const loginState = useSelector((state) => state.authDetails.login);
+  const loadingstate = useSelector((state) => state.authDetails.loading);
   const dispatch = useDispatch();
   let [err, setErr] = useState({});
+  const router = useRouter();
 
   const updateRecord = (e) => {
     dispatch(
@@ -19,7 +26,10 @@ const Login = () => {
     );
   };
 
-  const validateLogin = () => {
+  const validateLogin = async () => {
+    dispatch(setLoading(true));
+    setErr({});
+
     let errorstate = {};
 
     for (let item in loginState) {
@@ -31,17 +41,27 @@ const Login = () => {
     }
 
     if (Object.keys(errorstate).length > 0) {
-      console.log("errorstate", errorstate);
+      // console.log("errorstate", errorstate);
       setErr(errorstate);
+      dispatch(setLoading(false));
       return;
     } else {
       setErr({});
-      console.log("allgood:", loginState);
+      // console.log("allgood:", loginState);
+      let res = await signIn("credentials", { ...loginState, redirect: false });
+      console.log(res);
+      if (res.error !== null) {
+        setErr({ credentials: "true", email: "true", password: "true" });
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        router.push("/admin/dashboard");
+      }
     }
   };
   return (
     <>
-      {/* {console.log("errstate:", err)} */}
+      {/* {console.log("loading state:", loadingstate)} */}
       <div className="grid place-items-center"></div>
       <div className="grid place-items-center relative loginSize">
         <div className="card mt-20 w-full max-w-xl p-4 sm:p-5 shadow-xl absolute centerBox ">
@@ -63,6 +83,9 @@ const Login = () => {
                 /> */}
             <h2 className="text-3xl font-semibold">User Login</h2>
           </div>
+          {err.credentials === "true" && (
+            <small className="text-error">Invalid email or password</small>
+          )}
 
           <div className="space-y-4 my-4">
             <label className="block">
@@ -96,7 +119,7 @@ const Login = () => {
             <p>
               Don't have an Account?{" "}
               <span className="text-success">
-                <Link href="/register">Register</Link>
+                <Link href="/auth/register">Register</Link>
               </span>
             </p>
           </div>
@@ -105,11 +128,15 @@ const Login = () => {
           className="absolute w-80 h-20 loginButton shadow-xl grid place-items-center text-base font-semibold "
           onClick={validateLogin}
         >
-          Login
+          {loadingstate === false ? (
+            "Sign in"
+          ) : (
+            <div class="spinner h-7 w-7 animate-spin rounded-full border-[3px] border-success border-r-transparent"></div>
+          )}
         </div>
       </div>
     </>
   );
 };
 
-export default Login;
+export default SignIn;

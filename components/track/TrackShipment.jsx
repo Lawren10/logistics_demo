@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React from "react";
 import { useSelector } from "react-redux";
 import TrackingForm from "./TrackingForm";
 import Loader from "../Loader";
@@ -14,7 +15,7 @@ const TrackShipment = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold mt-4 text-info">Track Shipment</h1>
+      {/* <h1 className="text-3xl font-semibold mt-4 text-info">Track Shipment</h1> */}
 
       {!showDetails && <TrackingForm />}
       {showDetails && <TrackingResult />}

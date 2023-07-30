@@ -1,16 +1,22 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getTrackingDetail } from "@/reduxStore/storeSliceies/trackingSlice";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getTrackingDetail,
+  updateNumber,
+} from "@/reduxStore/storeSliceies/trackingSlice";
 
 const TrackingForm = () => {
-  const [trackingNum, setTrackingNum] = useState("");
+  const tracking = useSelector((state) => state.trackingDetails);
+
+  const { trackingNumberError, trackingNumber } = tracking;
+
   const dispatch = useDispatch();
 
   const setNumber = (e) => {
-    setTrackingNum(e.target.value);
+    dispatch(updateNumber({ name: e.target.name, value: e.target.value }));
   };
   const getDetail = () => {
-    dispatch(getTrackingDetail(trackingNum));
+    dispatch(getTrackingDetail(trackingNumber));
     // console.log(trackingNum);
   };
   return (
@@ -35,10 +41,16 @@ const TrackingForm = () => {
               <input
                 className="form-input h-12 mt-1.5 w-full rounded-lg bg-slate-150 px-3 py-2 ring-primary/50 placeholder:text-slate-400 hover:bg-slate-200 focus:ring dark:bg-navy-900/90"
                 type="text"
+                name={"trackingNumber"}
                 onChange={setNumber}
-                value={trackingNum}
+                value={trackingNumber}
               />
             </label>
+            {trackingNumberError && (
+              <small className="text-error">
+                Sorry no shipment related to this tracking number
+              </small>
+            )}
           </div>
 
           <div className="flex justify-center space-x-2 pt-4">
@@ -47,7 +59,7 @@ const TrackingForm = () => {
               onClick={getDetail}
             >
               <span>Track</span>
-              <i class="fa-solid fa-paper-plane"></i>
+              <i className="fa-solid fa-paper-plane"></i>
             </button>
           </div>
         </div>

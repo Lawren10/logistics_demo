@@ -17,13 +17,13 @@ const Reports = () => {
     <>
       <h1 className="text-3xl font-semibold mt-4 text-info">Reports</h1>
       <div className="flex justify-center space-x-2 pt-4">
-        <button
+        {/* <button
           className="btn h-11 space-x-2 bg-primary font-medium text-white hover:bg-primary-focus hover:shadow-lg hover:shadow-primary/50 focus:bg-primary-focus focus:shadow-lg focus:shadow-primary/50 active:bg-primary-focus/90"
           onClick={() => sendSms()}
         >
           <span>send sms</span>
           <i class="fa-solid fa-paper-plane"></i>
-        </button>
+        </button> */}
       </div>
     </>
   );
