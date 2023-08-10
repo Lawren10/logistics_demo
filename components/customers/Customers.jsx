@@ -64,23 +64,23 @@ const CustomersList = () => {
           <table className="is-hoverable w-full text-left">
             <thead>
               <tr>
-                <th class="whitespace-nowrap rounded-tl-lg bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                <th className="whitespace-nowrap rounded-tl-lg bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
                   #
                 </th>
-                <th class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                <th className="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
                   First Name
                 </th>
-                <th class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                <th className="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
                   Last Name
                 </th>
 
-                <th class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                <th className="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
                   Email
                 </th>
-                <th class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                <th className="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
                   Phone Number
                 </th>
-                <th class="whitespace-nowrap rounded-tr-lg bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
+                <th className="whitespace-nowrap rounded-tr-lg bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5">
                   Address
                 </th>
               </tr>
@@ -91,27 +91,27 @@ const CustomersList = () => {
                 customerList.map((item, index) => {
                   return (
                     <tr
-                      class="border-y border-transparent border-b-slate-200 dark:border-b-navy-500"
+                      className="border-y border-transparent border-b-slate-200 dark:border-b-navy-500"
                       key={item.id}
                     >
-                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                      <td className="whitespace-nowrap px-4 py-3 sm:px-5">
                         {index + 1}
                       </td>
-                      <td class="whitespace-nowrap px-4 py-3 font-medium text-slate-700 dark:text-navy-100 sm:px-5">
+                      <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-700 dark:text-navy-100 sm:px-5">
                         {item.firstName}
                       </td>
-                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                      <td className="whitespace-nowrap px-4 py-3 sm:px-5">
                         {" "}
                         {item.lastName}
                       </td>
 
-                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                      <td className="whitespace-nowrap px-4 py-3 sm:px-5">
                         {item.email}
                       </td>
-                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                      <td className="whitespace-nowrap px-4 py-3 sm:px-5">
                         {item.phone}
                       </td>
-                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                      <td className="whitespace-nowrap px-4 py-3 sm:px-5">
                         {item.address}
                       </td>
                     </tr>
@@ -121,30 +121,30 @@ const CustomersList = () => {
           </table>
         </div>
 
-        <div class="flex flex-col justify-between space-y-4 px-4 py-4 sm:flex-row sm:items-center sm:space-y-0 sm:px-5">
+        <div className="flex flex-col justify-between space-y-4 px-4 py-4 sm:flex-row sm:items-center sm:space-y-0 sm:px-5">
           <div
             role="status"
             aria-live="polite"
-            class="gridjs-summary"
+            className="gridjs-summary"
             title="Page 1 of 2"
           >
             Showing <b>1</b> to <b>10</b> of <b>15</b> results
           </div>
-          <div class="gridjs-pages " style={{ alignItems: "center" }}>
+          <div className="gridjs-pages " style={{ alignItems: "center" }}>
             <button
-              tabindex="0"
+              tabIndex="0"
               role="button"
               disabled=""
               title="Previous"
               aria-label="Previous"
-              class=""
+              className=""
             >
               Previous
             </button>
             <button
-              tabindex="0"
+              tabIndex="0"
               role="button"
-              class="gridjs-currentPage"
+              className="gridjs-currentPage"
               title="Page 1"
               aria-label="Page 1"
             >
@@ -152,20 +152,20 @@ const CustomersList = () => {
             </button>
             <b>OF</b>
             <button
-              tabindex="0"
+              tabIndex="0"
               role="button"
-              class=""
+              className=""
               title="Page 2"
               aria-label="Page 2"
             >
               2
             </button>
             <button
-              tabindex="0"
+              tabIndex="0"
               role="button"
               title="Next"
               aria-label="Next"
-              class=""
+              className=""
             >
               Next
             </button>

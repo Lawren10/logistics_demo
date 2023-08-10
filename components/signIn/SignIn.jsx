@@ -49,7 +49,7 @@ const SignIn = () => {
       setErr({});
       // console.log("allgood:", loginState);
       let res = await signIn("credentials", { ...loginState, redirect: false });
-      console.log(res);
+      // console.log(res);
       if (res.error !== null) {
         setErr({ credentials: "true", email: "true", password: "true" });
         dispatch(setLoading(false));
@@ -131,7 +131,7 @@ const SignIn = () => {
           {loadingstate === false ? (
             "Sign in"
           ) : (
-            <div class="spinner h-7 w-7 animate-spin rounded-full border-[3px] border-success border-r-transparent"></div>
+            <div className="spinner h-7 w-7 animate-spin rounded-full border-[3px] border-success border-r-transparent"></div>
           )}
         </div>
       </div>
