@@ -123,16 +123,16 @@ const SignIn = () => {
               </span>
             </p>
           </div>
-        </div>
-        <div
-          className="absolute w-80 h-20 loginButton shadow-xl grid place-items-center text-base font-semibold "
-          onClick={validateLogin}
-        >
-          {loadingstate === false ? (
-            "Sign in"
-          ) : (
-            <div className="spinner h-7 w-7 animate-spin rounded-full border-[3px] border-success border-r-transparent"></div>
-          )}
+          <div
+            className="absolute w-80 h-20 loginButton shadow-xl grid place-items-center text-base font-semibold "
+            onClick={validateLogin}
+          >
+            {loadingstate === false ? (
+              "Sign in"
+            ) : (
+              <div className="spinner h-7 w-7 animate-spin rounded-full border-[3px] border-success border-r-transparent"></div>
+            )}
+          </div>
         </div>
       </div>
     </>

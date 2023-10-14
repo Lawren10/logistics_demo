@@ -118,10 +118,10 @@ const Sidebar = () => {
                           href="#"
                           className="text-base font-medium text-slate-700 hover:text-primary focus:text-primary dark:text-navy-100 dark:hover:text-accent-light dark:focus:text-accent-light"
                         >
-                          Travis Fuller
+                          user name
                         </a>
                         <p className="text-xs text-slate-400 dark:text-navy-300">
-                          Product Designer
+                          profession
                         </p>
                       </div>
                     </div>
@@ -152,7 +152,7 @@ const Sidebar = () => {
                             Profile
                           </h2>
                           <div className="text-xs text-slate-400 line-clamp-1 dark:text-navy-300">
-                            Your profile setting
+                            profile setting
                           </div>
                         </div>
                       </Link>
@@ -188,7 +188,7 @@ const Sidebar = () => {
                             Settings
                           </h2>
                           <div className="text-xs text-slate-400 line-clamp-1 dark:text-navy-300">
-                            Webapp settings
+                            account settings
                           </div>
                         </div>
                       </Link>
