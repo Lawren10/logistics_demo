@@ -76,3 +76,20 @@ ALTER TABLE `Shipment` ADD CONSTRAINT `Shipment_customerId_fkey` FOREIGN KEY (`c
 
 -- AddForeignKey
 ALTER TABLE `ShipmentTracking` ADD CONSTRAINT `ShipmentTracking_shipmentId_fkey` FOREIGN KEY (`shipmentId`) REFERENCES `Shipment`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+
+
+
+
+-- CREATE TABLE `sql9653111`.`Customers` ( 
+--     `id` VARCHAR(191) NOT NULL , 
+--     `firstName` VARCHAR(191) NOT NULL , 
+--     `lastName` VARCHAR(191) NOT NULL , 
+--     `email` VARCHAR(191) NOT NULL , 
+--     `phone` VARCHAR(191) NOT NULL , 
+--     `address` VARCHAR(191) NOT NULL , 
+--     `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+--     `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+--     PRIMARY KEY (`id`(191)),
+--     UNIQUE `Customers_phone_key` (`phone`(191))
+--     ) ENGINE = InnoDB;
