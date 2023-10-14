@@ -70,14 +70,17 @@ const Register = () => {
       {/* {console.log("loading state:", loadingstate)} */}
       <div className="grid place-items-center">
         <div className="flex justify-center items-center space-x-4">
-          <button className="h-11 w-11  text-primary outline-none ">
-            LOGO
-          </button>
-          {/* <img
-                  className=" "
-                  src="images/app-logo.svg"
-                  alt="logo"
-                /> */}
+          <div
+            className="relative mx-auto -mt-24 h-20 w-24 shadow-xl overflow-hidden grid place-items-center bg-white"
+            style={{ borderRadius: "20%" }}
+          >
+            <img
+              className="mix-blend-multiply"
+              src="/ktg_logo.JPG"
+              alt="avatar"
+            />
+          </div>
+
           <h2 className="text-3xl font-semibold ">Register</h2>
         </div>
       </div>

@@ -18,14 +18,19 @@ const Sidebar = () => {
           <div className="flex h-full w-full flex-col items-center border-r border-slate-150 bg-white dark:border-navy-700 dark:bg-navy-800">
             <div className="flex pt-4">
               <a href="/">
-                <button className=" ml-0.5 flex h-11 w-11  text-primary outline-none transition-transform duration-500 ease-in-out hover:rotate-[360deg]">
+                {/* <button className=" ml-0.5 flex h-11 w-11  text-primary outline-none transition-transform duration-500 ease-in-out hover:rotate-[360deg]">
                   LOGO
-                </button>
-                {/* <img
-                  className=" "
-                  src="images/app-logo.svg"
-                  alt="logo"
-                /> */}
+                </button> */}
+                <div
+                  className="relative mx-auto h-18 w-18 shadow-xl overflow-hidden grid place-items-center bg-white "
+                  style={{ borderRadius: "20%" }}
+                >
+                  <img
+                    className="mix-blend-multiply"
+                    src="/ktg_logo.JPG"
+                    alt="avatar"
+                  />
+                </div>
               </a>
             </div>
 

@@ -14,7 +14,6 @@ const authOptions = {
       credentials: {},
 
       async authorize(credentials) {
-        console.log(credentials);
         const adminUser = await prisma.AdminUser.findUnique({
           where: {
             email: credentials.email,

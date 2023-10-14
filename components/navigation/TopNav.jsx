@@ -10,11 +10,18 @@ const TopNav = () => {
         <div
           className={`header-container relative flex w-full bg-white dark:bg-navy-700 print:hidden`}
         >
-          <div className="flex w-full items-center justify-between">
-            <div className="h-7 w-7">
-              <button className="menu-toggle ml-0.5 flex h-7 w-7 flex-col justify-center space-y-1.5 text-primary outline-none ">
-                LOGO
-              </button>
+          <div className="flex w-full items-center justify-between ">
+            <div className="h-12 w-20">
+              <div
+                className="relative mx-auto my-10 h-full w-12 shadow-xl overflow-hidden grid place-items-center bg-white "
+                style={{ borderRadius: "20%" }}
+              >
+                <img
+                  className="mix-blend-multiply"
+                  src="/ktg_logo.JPG"
+                  alt="avatar"
+                />
+              </div>
             </div>
 
             <div className="-mr-1.5 flex items-center space-x-2">

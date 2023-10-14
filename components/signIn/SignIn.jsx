@@ -66,21 +66,17 @@ const SignIn = () => {
       <div className="grid place-items-center relative loginSize">
         <div className="card mt-20 w-full max-w-xl p-4 sm:p-5 shadow-xl absolute centerBox ">
           <div
-            className="relative mx-auto -mt-20 h-40 w-40 shadow-xl"
-            style={{ borderRadius: "40%" }}
+            className="relative mx-auto -mt-20 h-40 w-40 shadow-xl overflow-hidden grid place-items-center bg-white"
+            style={{ borderRadius: "20%" }}
           >
             <img
-              className="mask is-squircle"
-              src="images/avatar/avatar-20.jpg"
+              className="mix-blend-multiply"
+              src="/ktg_logo.JPG"
               alt="avatar"
             />
           </div>
           <div className="flex justify-center items-center space-x-4 mt-4">
-            {/* <img
-                  className=" "
-                  src="images/app-logo.svg"
-                  alt="logo"
-                /> */}
+            {/* <img className=" " src="" alt="logo" /> */}
             <h2 className="text-3xl font-semibold">User Login</h2>
           </div>
           {err.credentials === "true" && (
